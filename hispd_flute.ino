@@ -27,6 +27,36 @@ void triggerSpdInput() {
   }
 }
 
+void triggerSpdInputFalling() {
+  sensorLeft = digitalRead(PIN_SENSOR_LEFT_INPUT);
+  sensorRight = digitalRead(PIN_SENSOR_RIGHT_INPUT);
+  digitalWrite(LED_BUILTIN, spd);
+  Serial.println("0");
+  
+  if(sensorLeft == sensorRight){
+    digitalWrite(PIN_MOTOR_LEFT, 0);
+    digitalWrite(PIN_MOTOR_RIGHT, 0);
+  }else{
+    digitalWrite(PIN_MOTOR_LEFT, sensorLeft == 0 ? sensorLeft : spd);
+    digitalWrite(PIN_MOTOR_RIGHT,  sensorRight == 0 ? sensorRight : spd);
+  }
+}
+
+void triggerSpdInputRising() {
+  sensorLeft = digitalRead(PIN_SENSOR_LEFT_INPUT);
+  sensorRight = digitalRead(PIN_SENSOR_RIGHT_INPUT);
+  digitalWrite(LED_BUILTIN, spd);
+  Serial.println("1");
+  
+  if(sensorLeft == sensorRight){
+    digitalWrite(PIN_MOTOR_LEFT, 1);
+    digitalWrite(PIN_MOTOR_RIGHT, 1);
+  }else{
+    digitalWrite(PIN_MOTOR_LEFT, sensorLeft == 0 ? sensorLeft : spd);
+    digitalWrite(PIN_MOTOR_RIGHT,  sensorRight == 0 ? sensorRight : spd);
+  }
+}
+
 void setup() {
   Serial.begin(115200);
   pinMode(LED_BUILTIN, OUTPUT);
@@ -38,7 +68,9 @@ void setup() {
   pinMode(PIN_SENSOR_LEFT_INPUT, INPUT_PULLUP);
   pinMode(PIN_SENSOR_RIGHT_INPUT, INPUT_PULLUP);
   
-  attachInterrupt(digitalPinToInterrupt(PIN_SPD_A_INPUT), triggerSpdInput, CHANGE); //FALLING
+//  attachInterrupt(digitalPinToInterrupt(PIN_SPD_A_INPUT), triggerSpdInput, CHANGE); 
+  attachInterrupt(digitalPinToInterrupt(PIN_SPD_A_INPUT), triggerSpdInputFalling, FALLING); 
+  attachInterrupt(digitalPinToInterrupt(PIN_SPD_B_INPUT), triggerSpdInputRising, RISING); 
 }
 
 void loop() {}
