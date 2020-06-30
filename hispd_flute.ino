@@ -1,12 +1,12 @@
-const int PIN_SPD_A1_INPUT = 2;
-const int PIN_SPD_A2_INPUT = 3;
-const int PIN_MOTOR_LEFT_A = 4;
-const int PIN_MOTOR_LEFT_B = 5;
-const int PIN_MOTOR_RIGHT_A = 6;
-const int PIN_MOTOR_RIGHT_B = 7;
-const int PIN_SENSOR_LEFT_INPUT = 18;
-const int PIN_SENSOR_RIGHT_INPUT = 19;
-const int PPR = 400;
+const int PIN_SPD_A1_INPUT = 2;         //encode A
+const int PIN_SPD_A2_INPUT = 3;         //encode A
+const int PIN_MOTOR_LEFT_A = 4;         //Motor Left A
+const int PIN_MOTOR_LEFT_B = 5;         //Motor Left B
+const int PIN_MOTOR_RIGHT_A = 6;        //Motor Right A
+const int PIN_MOTOR_RIGHT_B = 7;        //Motor Right B
+const int PIN_SENSOR_LEFT_INPUT = 18;   //Sensor Left
+const int PIN_SENSOR_RIGHT_INPUT = 19;  //Sensor Right
+const int PPR = 1000;
 
 long count = 0;
 int spd, b, sensorLeft, sensorRight;
