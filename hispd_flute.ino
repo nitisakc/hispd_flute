@@ -11,7 +11,7 @@ void triggerSpdInputFalling() {
   sensorA = digitalRead(PIN_SENSOR_A_INPUT);
   sensorB = digitalRead(PIN_SENSOR_B_INPUT);
   
-  if(sensorA == sensorB || sensorA == 1){
+  if(sensorA == sensorB || sensorA == 0){
     digitalWrite(PIN_MOTOR_A, 0);
     digitalWrite(PIN_MOTOR_B, 0);
   }
@@ -21,7 +21,7 @@ void triggerSpdInputRising() {
   sensorA = digitalRead(PIN_SENSOR_A_INPUT);
   sensorB = digitalRead(PIN_SENSOR_B_INPUT);
   
-  if(sensorA == sensorB || sensorA == 1){
+  if(sensorA == sensorB || sensorA == 0){
     digitalWrite(PIN_MOTOR_A, 1);
     digitalWrite(PIN_MOTOR_B, 1);
   }
@@ -33,8 +33,8 @@ void setup() {
   
   pinMode(PIN_SPD_A1_INPUT, INPUT_PULLUP); digitalWrite(PIN_SPD_A1_INPUT, HIGH);
   pinMode(PIN_SPD_A2_INPUT, INPUT_PULLUP); digitalWrite(PIN_SPD_A2_INPUT, HIGH);
-  pinMode(PIN_SENSOR_A_INPUT, INPUT_PULLUP);
-  pinMode(PIN_SENSOR_B_INPUT, INPUT_PULLUP);
+  pinMode(PIN_SENSOR_A_INPUT, INPUT); digitalWrite(PIN_SENSOR_A_INPUT, LOW);
+  pinMode(PIN_SENSOR_B_INPUT, INPUT); digitalWrite(PIN_SENSOR_B_INPUT, LOW);
   
   attachInterrupt(digitalPinToInterrupt(PIN_SPD_A1_INPUT), triggerSpdInputFalling, FALLING); 
   attachInterrupt(digitalPinToInterrupt(PIN_SPD_A2_INPUT), triggerSpdInputRising, RISING); 
