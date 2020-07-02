@@ -12,8 +12,8 @@ Output low value to stop the motor.
 Left   |   Right  |   Left   |   Right
   0    |     0    |     1    |     1
   1    |     1    |     1    |     1
-  0    |     1    |     1    |     0
-  1    |     0    |     0    |     1
+  0    |     1    |     0    |     1
+  1    |     0    |     1    |     0
   
  */
 
@@ -25,18 +25,18 @@ void triggerInput() {
   right   = digitalRead(PIN_SENSOR_RIGHT_INPUT);
 
   if(bypass == LOW && left != right){
-    digitalWrite(PIN_SENSOR_LEFT_OUTPUT, !left);
-    digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, !right);
+    digitalWrite(PIN_SENSOR_LEFT_OUTPUT, left);
+    digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, right);
   }else{
-    digitalWrite(PIN_SENSOR_LEFT_OUTPUT, HIGH);
-    digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, HIGH);
+    digitalWrite(PIN_SENSOR_LEFT_OUTPUT, LOW);
+    digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, LOW);
   }
 }
 
 
 void setup() {
-  pinMode(PIN_SENSOR_LEFT_OUTPUT, OUTPUT);  digitalWrite(PIN_SENSOR_LEFT_OUTPUT, HIGH);
-  pinMode(PIN_SENSOR_RIGHT_OUTPUT, OUTPUT); digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, HIGH);
+  pinMode(PIN_SENSOR_LEFT_OUTPUT, OUTPUT);  digitalWrite(PIN_SENSOR_LEFT_OUTPUT, LOW);
+  pinMode(PIN_SENSOR_RIGHT_OUTPUT, OUTPUT); digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, LOW);
   pinMode(PIN_SENSOR_LEFT_INPUT, INPUT);    digitalWrite(PIN_SENSOR_LEFT_INPUT, LOW);
   pinMode(PIN_SENSOR_RIGHT_INPUT, INPUT);   digitalWrite(PIN_SENSOR_RIGHT_INPUT, LOW);
   pinMode(PIN_SENSOR_BYPASS_INPUT, INPUT);  digitalWrite(PIN_SENSOR_BYPASS_INPUT, LOW);
