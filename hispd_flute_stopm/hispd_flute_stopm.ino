@@ -24,10 +24,10 @@ void triggerInput() {
 
   if(left != right){
     digitalWrite(PIN_SENSOR_LEFT_OUTPUT, !left);
-    digitalWrite(PIN_SENSOR_RIGHT_INPUT, !right);
+    digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, !right);
   }else{
     digitalWrite(PIN_SENSOR_LEFT_OUTPUT, HIGH);
-    digitalWrite(PIN_SENSOR_RIGHT_INPUT, HIGH);
+    digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, HIGH);
   }
 }
 
