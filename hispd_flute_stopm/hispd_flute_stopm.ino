@@ -1,48 +1,64 @@
-const int PIN_SENSOR_LEFT_INPUT   = 2;      //Sensor Left
-const int PIN_SENSOR_RIGHT_INPUT  = 3;      //Sensor Right
-const int PIN_SENSOR_BYPASS_INPUT = 4;      //Sensor Bypass
-const int PIN_SENSOR_LEFT_OUTPUT  = 6;      //Servo Control Left
-const int PIN_SENSOR_RIGHT_OUTPUT = 7;      //Servo Control Right
+const int PIN_SENSOR_LEFT_INPUT         = 2;      //Sensor Left
+const int PIN_SENSOR_RIGHT_INPUT        = 3;      //Sensor Right
+const int PIN_SENSOR_BYPASS_INPUT       = 4;      //Sensor Bypass
 
-/*
-The high input from the sensor is the detection of objects.
-Output low value to stop the motor.
+const int PIN_SENSOR_LOWER_LEFT_INPUT   = 18;     //Sensor Left
+const int PIN_SENSOR_LOWER_RIGHT_INPUT  = 19;     //Sensor Right
+const int PIN_SENSOR_LOWER_BYPASS_INPUT = 5;      //Sensor Bypass
 
-    Sensor        |        Motor
-Left   |   Right  |   Left   |   Right
-  0    |     0    |     1    |     1
-  1    |     1    |     1    |     1
-  0    |     1    |     0    |     1
-  1    |     0    |     1    |     0
-  
- */
+const int PIN_MOTOR_LEFT_OUTPUT         = 6;      //Servo Control Left
+const int PIN_MOTOR_RIGHT_OUTPUT        = 7;      //Servo Control Right
 
-int left, right, bypass;
+const int PIN_MOTOR_LOWER_LEFT_OUTPUT   = 8;      //Servo Control Left
+const int PIN_MOTOR_LOWER_RIGHT_OUTPUT  = 9;      //Servo Control Right
+
+const int PIN_KICK_OUTPUT               = 20;      //
+
+int left, right, bypass, leftLower, rightLower, bypassLower;
 
 void triggerInput() {
-  bypass  = digitalRead(PIN_SENSOR_BYPASS_INPUT);
+//  bypass  = digitalRead(PIN_SENSOR_BYPASS_INPUT);
   left    = digitalRead(PIN_SENSOR_LEFT_INPUT);
   right   = digitalRead(PIN_SENSOR_RIGHT_INPUT);
+  
+//  bypassLower  = digitalRead(PIN_SENSOR_LOWER_BYPASS_INPUT);
+  leftLower    = digitalRead(PIN_SENSOR_LOWER_LEFT_INPUT);
+  rightLower   = digitalRead(PIN_SENSOR_LOWER_RIGHT_INPUT);
 
-  if(bypass == LOW && left != right){
-    digitalWrite(PIN_SENSOR_LEFT_OUTPUT, left);
-    digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, right);
+  if(left == right == leftLower == rightLower == HIGH){
+    digitalWrite(PIN_MOTOR_LEFT_OUTPUT, HIGH);
+    digitalWrite(PIN_MOTOR_RIGHT_OUTPUT, HIGH);
+    digitalWrite(PIN_MOTOR_LOWER_LEFT_OUTPUT, HIGH);
+    digitalWrite(PIN_MOTOR_LOWER_RIGHT_OUTPUT, HIGH);
   }else{
-    digitalWrite(PIN_SENSOR_LEFT_OUTPUT, LOW);
-    digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, LOW);
+    digitalWrite(PIN_MOTOR_LEFT_OUTPUT, !left);
+    digitalWrite(PIN_MOTOR_RIGHT_OUTPUT, !right);
+    digitalWrite(PIN_MOTOR_LOWER_LEFT_OUTPUT, !leftLower);
+    digitalWrite(PIN_MOTOR_LOWER_RIGHT_OUTPUT, !rightLower);
   }
 }
 
-
 void setup() {
-  pinMode(PIN_SENSOR_LEFT_OUTPUT, OUTPUT);  digitalWrite(PIN_SENSOR_LEFT_OUTPUT, LOW);
-  pinMode(PIN_SENSOR_RIGHT_OUTPUT, OUTPUT); digitalWrite(PIN_SENSOR_RIGHT_OUTPUT, LOW);
-  pinMode(PIN_SENSOR_LEFT_INPUT, INPUT);    digitalWrite(PIN_SENSOR_LEFT_INPUT, LOW);
-  pinMode(PIN_SENSOR_RIGHT_INPUT, INPUT);   digitalWrite(PIN_SENSOR_RIGHT_INPUT, LOW);
-  pinMode(PIN_SENSOR_BYPASS_INPUT, INPUT);  digitalWrite(PIN_SENSOR_BYPASS_INPUT, LOW);
+  //UPPER
+  pinMode(PIN_SENSOR_LEFT_INPUT, INPUT);                digitalWrite(PIN_SENSOR_LEFT_INPUT, LOW);
+  pinMode(PIN_SENSOR_RIGHT_INPUT, INPUT);               digitalWrite(PIN_SENSOR_RIGHT_INPUT, LOW);
+  pinMode(PIN_SENSOR_BYPASS_INPUT, INPUT);              digitalWrite(PIN_SENSOR_BYPASS_INPUT, LOW);
+  //LOWER
+  pinMode(PIN_SENSOR_LOWER_LEFT_INPUT, INPUT);          digitalWrite(PIN_SENSOR_LOWER_LEFT_INPUT, LOW);
+  pinMode(PIN_SENSOR_LOWER_RIGHT_INPUT, INPUT);         digitalWrite(PIN_SENSOR_LOWER_RIGHT_INPUT, LOW);
+  pinMode(PIN_SENSOR_LOWER_BYPASS_INPUT, INPUT);        digitalWrite(PIN_SENSOR_LOWER_BYPASS_INPUT, LOW);
+  //MOTOR
+  pinMode(PIN_MOTOR_LEFT_OUTPUT, OUTPUT);               digitalWrite(PIN_MOTOR_LEFT_OUTPUT, HIGH);
+  pinMode(PIN_MOTOR_RIGHT_OUTPUT, OUTPUT);              digitalWrite(PIN_MOTOR_RIGHT_OUTPUT, HIGH);
+  pinMode(PIN_MOTOR_LOWER_LEFT_OUTPUT, OUTPUT);         digitalWrite(PIN_MOTOR_LOWER_LEFT_OUTPUT, HIGH);
+  pinMode(PIN_MOTOR_LOWER_RIGHT_OUTPUT, OUTPUT);        digitalWrite(PIN_MOTOR_LOWER_RIGHT_OUTPUT, HIGH);
+  //KICKER
+  pinMode(PIN_KICK_OUTPUT, OUTPUT);                     digitalWrite(PIN_KICK_OUTPUT, HIGH);
   
   attachInterrupt(digitalPinToInterrupt(PIN_SENSOR_LEFT_INPUT), triggerInput, CHANGE); 
   attachInterrupt(digitalPinToInterrupt(PIN_SENSOR_RIGHT_INPUT), triggerInput, CHANGE); 
+  attachInterrupt(digitalPinToInterrupt(PIN_SENSOR_LOWER_LEFT_INPUT), triggerInput, CHANGE); 
+  attachInterrupt(digitalPinToInterrupt(PIN_SENSOR_LOWER_RIGHT_INPUT), triggerInput, CHANGE); 
 }
 
 void loop() {
